@@ -6,16 +6,17 @@ const apiRoute = require('express').Router();
 // for creating randomized unique id numbers/sequences for each saved note
 const { v4: uuidv4 } = require('uuid');
 
-const { readNotes } = require('../db/store');
+const { readNotes, writeNotes } = require('../db/store');
+const Note = require ('../db/store');
 
 
-apiRoute.get('/api/notes', (req, res) => 
+apiRoute.get('/notes', (req, res) => 
     {readNotes('../db/db.json').then((data) => res.json(JSON.parse(data)))
      }
 )
 
-apiRoute.post('/api/notes', (req, res) => {
-    
+apiRoute.post('/notes', (req, res) => {
+    Note.saveNote(req.body).then((data) => res.json(data));
 })
 
 module.exports = apiRoute;
