@@ -1,23 +1,30 @@
-const fs = require('fs');
+const fs = require("fs");
 
-const path = require('path');
-const apiRoute = require('express').Router();
-
-// for creating randomized unique id numbers/sequences for each saved note
-const { v4: uuidv4 } = require('uuid');
-
-const { readNotes, writeNotes } = require('../db/store');
-const Note = require ('../db/store');
+const path = require("path");
+const apiRoute = require("express").Router();
+const { v4: uuidv4 } = require("uuid");
+const { readFromFile, writeToFile, readAndAppend } = require('./store')
 
 
-apiRoute.get('/notes', (req, res) => 
-    {readNotes('../db/db.json').then((data) => res.json(JSON.parse(data)))
-     }
-)
+apiRoute.get("/api/notes", (req, res) => {
+    readFromFile('../db/db.json').then((notes) => res.json(JSON.parse(notes)))
+});
 
-apiRoute.post('/notes', (req, res) => {
-    Note.saveNote(req.body).then((data) => res.json(data))
-    .catch(err => res.status(500).json(err));;
-})
+apiRoute.post("/api/notes", (req, res) => {
+    console.log(req.body);
+
+    const { title, text } = req.body;
+
+    const newNote = {
+        title,
+        text,
+        note_id: uuidv4(),
+    }
+
+    readAndAppend(newNote, '../db/db.json').then(notes => [...notes, newNote])
+    .then(allNotes => writeToFile(allNotes))
+    .then(() => newNote)
+    res.json('New note added');
+});
 
 module.exports = apiRoute;
