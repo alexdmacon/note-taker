@@ -16,7 +16,8 @@ apiRoute.get('/notes', (req, res) =>
 )
 
 apiRoute.post('/notes', (req, res) => {
-    Note.saveNote(req.body).then((data) => res.json(data));
+    Note.saveNote(req.body).then((data) => res.json(data))
+    .catch(err => res.status(500).json(err));;
 })
 
 module.exports = apiRoute;
