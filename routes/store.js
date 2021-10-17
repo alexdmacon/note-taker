@@ -1,15 +1,19 @@
 const fs = require("fs");
 const util = require("util");
+const path = require("path");
 
 const readFromFile = util.promisify(fs.readFile);
 
 const writeToFile = (destination, content) =>
-  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-    err ? console.error(err) : console.info(`\nData written to ${destination}`)
-  );
+  fs.writeFile(path.join(__dirname, file), "utf8", (err, data) => {
+    console.log(`Writing ${file}`)
+  }
+  )
+
 
 const readAndAppend = (content, file) => {
-  fs.readFile(file, "utf8", (err, data) => {
+  console.log(`Here's the ${content}`)
+  fs.readFile(path.join(__dirname, file), "utf8", (err, data) => {
     if (err) {
       console.error(err);
     } else {

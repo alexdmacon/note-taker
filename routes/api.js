@@ -21,7 +21,7 @@ apiRoute.post("/notes", (req, res) => {
         text,
         note_id: uuidv4(),
     }
-
+    console.log(newNote);
     readAndAppend(newNote, '../db/db.json');
     res.json(newNote)
 } else {
