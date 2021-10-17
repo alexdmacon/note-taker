@@ -14,17 +14,19 @@ apiRoute.post("/notes", (req, res) => {
     console.log(req.body);
 
     const { title, text } = req.body;
-
+    
+    if (req.body) {
     const newNote = {
         title,
         text,
         note_id: uuidv4(),
     }
 
-    readAndAppend(newNote, '../db/db.json').then(notes => [...notes, newNote])
-/*     .then(allNotes => writeToFile(allNotes))
-    .then(() => newNote)
-    res.json('New note added'); */
+    readAndAppend(newNote, '../db/db.json');
+    res.json(newNote)
+} else {
+    res.error("no dice");
+}
 });
 
 module.exports = apiRoute;
