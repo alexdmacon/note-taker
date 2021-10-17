@@ -14,4 +14,8 @@ apiRoute.get('/api/notes', (req, res) =>
      }
 )
 
+apiRoute.post('/api/notes', (req, res) => {
+    
+})
+
 module.exports = apiRoute;
