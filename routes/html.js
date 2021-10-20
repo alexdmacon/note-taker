@@ -1,4 +1,7 @@
+// importing express and binding it to router-level middleware
 const htmlRoute = require('express').Router();
+
+// importing path module to convert relative paths to absolute paths.
 const path = require('path');
 
 // will return notes.html file
